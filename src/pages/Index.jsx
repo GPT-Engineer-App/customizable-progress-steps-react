@@ -1,26 +1,32 @@
 import { useState } from "react";
-import { Container, VStack, HStack, Box, Text, IconButton, Progress, Flex } from "@chakra-ui/react";
+import { Container, VStack, HStack, Box, Text, IconButton, Progress, Flex, Stepper, Step, StepIndicator, StepStatus, StepTitle, StepDescription, StepSeparator } from "@chakra-ui/react";
 import { FaCheckCircle, FaCircle } from "react-icons/fa";
 
 const steps = ["Purchase Requisition Creation", "Purchase Requisition Approval", "Purchase Order Creation", "Goods Receipt", "Invoice Verification", "Payment Processing"];
 
-const Step = ({ step, isCompleted, isActive }) => {
+const StepItem = ({ step, index, currentStep }) => {
   return (
-    <HStack spacing={4} align="center">
-      <IconButton aria-label={step} icon={isCompleted ? <FaCheckCircle /> : <FaCircle />} colorScheme={isCompleted ? "green" : isActive ? "blue" : "gray"} isRound size="lg" />
-      <Text fontSize="lg" fontWeight={isActive ? "bold" : "normal"}>
-        {step}
-      </Text>
-    </HStack>
+    <Step key={index}>
+      <StepIndicator>
+        <StepStatus complete={<FaCheckCircle />} incomplete={<FaCircle />} active={<FaCircle />} />
+      </StepIndicator>
+      <Box flexShrink="0">
+        <StepTitle>{step}</StepTitle>
+        <StepDescription>{index < currentStep ? "Completed" : index === currentStep ? "In Progress" : "Pending"}</StepDescription>
+      </Box>
+      <StepSeparator />
+    </Step>
   );
 };
 
 const ProgressSteps = ({ currentStep }) => {
   return (
     <VStack spacing={4} align="stretch">
-      {steps.map((step, index) => (
-        <Step key={index} step={step} isCompleted={index < currentStep} isActive={index === currentStep} />
-      ))}
+      <Stepper index={currentStep} colorScheme="blue" size="lg">
+        {steps.map((step, index) => (
+          <StepItem key={index} step={step} index={index} currentStep={currentStep} />
+        ))}
+      </Stepper>
     </VStack>
   );
 };
