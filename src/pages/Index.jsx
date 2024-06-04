@@ -22,7 +22,7 @@ const StepItem = ({ step, index, currentStep }) => {
 const ProgressSteps = ({ currentStep }) => {
   return (
     <VStack spacing={4} align="stretch">
-      <Stepper index={currentStep} colorScheme="blue" size="lg">
+      <Stepper index={currentStep} colorScheme="blue" size="lg" orientation="vertical">
         {steps.map((step, index) => (
           <StepItem key={index} step={step} index={index} currentStep={currentStep} />
         ))}
